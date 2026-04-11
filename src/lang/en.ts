@@ -301,6 +301,8 @@ export const languageEnglish = {
         hypaV3QueryChatCount:
             "The number of recent chat messages used as the query for similarity search. " +
             "Higher values use more chat context to determine similarity.",
+        hypaV3EmbeddingRegex:
+            "Regex scripts applied to summary chunks before they are embedded for similarity search. The summary text finally injected into the prompt is not modified.",
     },
     setup: {
         chooseProvider: "Choose AI Provider",
@@ -1358,6 +1360,7 @@ export const languageEnglish = {
         preserveOrphanedMemoryLabel: "Preserve Orphaned Memory",
         applyRegexScriptWhenRerollingLabel: "Apply Regex Script When Rerolling",
         doNotSummarizeUserMessageLabel: "Do Not Summarize User Message",
+        editEmbeddingRequestData: "Edit Embedding Request Data",
     },
     hypaV3Modal: {
         titleLabel: "HypaV3",
