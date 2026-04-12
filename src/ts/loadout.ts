@@ -12,6 +12,7 @@ export type Loadout = {
     globalVariables: {[key:string]:string}
     presetName: string
     personaId: string
+    hypaV3PresetName: string
 }
 
 export function makeLoadout(options:{
@@ -29,17 +30,19 @@ export function makeLoadout(options:{
         modules: DBState.db.enabledModules,
         globalVariables: DBState.db.globalChatVariables,
         presetName: preset.name ?? '',
-        personaId: DBState.db.personas[DBState.db.selectedPersona]?.id
+        personaId: DBState.db.personas[DBState.db.selectedPersona]?.id,
+        hypaV3PresetName: DBState.db.hypaV3Presets?.[DBState.db.hypaV3PresetId]?.name ?? ''
     });
 }
 
-type LoadoutApplyOption = 'modules' | 'globalVariables' | 'preset' | 'persona'
+type LoadoutApplyOption = 'modules' | 'globalVariables' | 'preset' | 'persona' | 'hypaV3Preset'
 
 export function applyLoadout(loadout: Loadout, apply:LoadoutApplyOption[] = [
     'modules',
     'globalVariables',
     'preset',
-    'persona'
+    'persona',
+    'hypaV3Preset'
 ]) {
     loadout.lastUsed = Date.now()
     loadout.characterIds.push(getCurrentCharacter()?.chaId)
@@ -60,6 +63,12 @@ export function applyLoadout(loadout: Loadout, apply:LoadoutApplyOption[] = [
     }
     if(apply.includes('globalVariables')) {
         DBState.db.globalChatVariables = loadout.globalVariables
+    }
+    if(apply.includes('hypaV3Preset')) {
+        let presetIndex = DBState.db.hypaV3Presets?.findIndex(p => p.name === loadout.hypaV3PresetName)
+        if(presetIndex !== -1){
+            DBState.db.hypaV3PresetId = presetIndex
+        }
     }
 }
 
